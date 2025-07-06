@@ -1,0 +1,60 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app 
+      - maven-repo:/root/.m2 
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: mvn spring-boot:run
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # O frontend roda no navegador, então precisa usar localhost para acessar o backend
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:8080/api/v1
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+  maven-repo:
+
+networks:
+  app-network:
+    driver: bridge

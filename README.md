@@ -1,222 +1,414 @@
-# 🖨️ Desafio Técnico - Sistema de Gestão de Impressoras
+# 🖨️ Sistema de Gestão de Impressoras - Media4All
 
-## 📋 Sobre o Desafio
+## � Sobre o Projeto
 
-Este desafio técnico avalia suas competências em desenvolvimento fullstack com **React (Next.js)** e **Spring Boot**. O objetivo é criar um sistema completo de gestão de impressoras corporativas com funcionalidades de CRUD, monitoramento de status e sincronização automática com API externa.
+Este projeto foi desenvolvido como parte do processo seletivo para estágio na **Media4All**. Consiste em um sistema completo de gestão de impressoras que permite:
 
-## 🎯 Objetivo Principal
+- 📊 **Gerenciamento completo de impressoras** (CRUD)
+- 🔄 **Sincronização automática** com APIs externas
+- 📈 **Dashboard de estatísticas** em tempo real
+- 🎛️ **Filtros avançados** para busca e organização
+- 📱 **Interface responsiva** e moderna
 
-Desenvolver uma aplicação web que permita:
-
-- **Gestão completa de impressoras**: Operações de criação, leitura, atualização e exclusão
-- **Monitoramento em tempo real**: Verificação do status operacional de cada equipamento
-- **Integração automatizada**: Sincronização periódica com sistema externo para atualização da base de dados
-
-## 🛠️ Stack Tecnológica Obrigatória
-
-### Frontend
-
-- **Next.js 14** com App Router
-- **Tailwind CSS** para estilização
-- **TanStack Query (React Query)** para cache e sincronização de dados
-- **React Hook Form + Zod** para formulários e validação
-- **shadcn/ui** para biblioteca de componentes
-- **Axios ou Fetch** para comunicação HTTP
-
-### Backend
-
-- **Spring Boot 3** com Java 17+
-- **Spring Web + Spring Data JPA** para camada de persistência
-- **MySQL** como sistema de banco de dados
-- **RestTemplate/WebClient** para consumo de APIs externas
-- **Bean Validation** para validação de dados
-
-## 🔄 Integração com API Externa
-
-### Especificações de Sincronização
-
-- **Estratégia de dados**: Atualizar os dados da impressora no banco utilizando o id como identificador exclusivo, garantindo que não haja duplicações.
-- **Tratamento de falhas**: Logging detalhado de erros sem interromper o fluxo da aplicação
-- **Auditoria**: Registrar métricas de sincronização (sucessos, falhas, registros processados)
-- **Agendamento**: Configurar `@Scheduled` para execução automática em intervalos definidos de 1 hora
-
-## 🖥️ Especificações Funcionais
-
-### Interface do Usuário (Frontend)
-
-**Tela Principal - Dashboard de Impressoras**
-
-- Layout em grid responsivo com cards informativos
-- Sistema de filtros por nome, modelo e localização
-- Paginação configurável (padrão: 10 itens por página)
-- Indicadores visuais de status com cores distintas
-- Botões de ação (editar, excluir, ver status) em cada card
-
-**Formulário de Gestão (Modal)**
-
-- Validação em tempo real com feedback visual
-- Marcação clara de campos obrigatórios
-- Prevenção de submissões duplicadas
-- Mensagens de sucesso/erro contextualizadas
-- Responsividade para dispositivos móveis
-
-**Visualização de Status**
-
-- Modal dedicado para exibição de informações detalhadas
-- Dados atualizados automaticamente
-- Interface limpa e intuitiva
-
-### Interface de Programação (Backend)
-
-**Endpoints da API REST**
-
-```http
-GET    /api/v1/printers                    # Listagem com paginação e filtros
-POST   /api/v1/printers                    # Criação de nova impressora
-GET    /api/v1/printers/{id}               # Busca por identificador
-PUT    /api/v1/printers/{id}               # Atualização completa
-DELETE /api/v1/printers/{id}               # Exclusão lógica ou física
-GET    /api/v1/printers/{id}/status        # Status operacional (mock)
-GET    /api/v1/sync/statistics             # Métricas de sincronização
-```
-
-**Estrutura de Resposta - Status da Impressora**
-
-```json
-{
-  "status": "ONLINE",
-  "paperLevel": 67
-}
-```
-
-**Padrões de Response**
-
-- Códigos HTTP apropriados (200, 201, 400, 404, 500)
-- Estrutura consistente para erros e sucessos
-- Paginação padronizada para listagens
-- Timestamps em formato ISO 8601
-
-## 📋 Requisitos de Implementação
-
-### Configuração Base
-
-- [ ] Estruturação de projeto seguindo convenções (frontend/backend separados)
-- [ ] Configuração de ambiente de desenvolvimento com Docker Compose
-- [ ] Setup de banco de dados MySQL com scripts de inicialização
-- [ ] Configuração de CORS adequada para comunicação frontend/backend
-
-### Frontend - React/Next.js
-
-- [ ] Arquitetura de componentes reutilizáveis com shadcn/ui
-- [ ] Implementação de hooks customizados para operações de API
-- [ ] Schema de validação Zod para todos os formulários
-- [ ] Estados de loading, erro e sucesso bem definidos
-- [ ] Design responsivo
-
-### Backend - Spring Boot
-
-- [ ] Camada de entidades JPA com relacionamentos bem definidos
-- [ ] Repositories com consultas otimizadas (quando necessário)
-- [ ] Services implementando regras de negócio
-- [ ] Controllers com tratamento adequado de exceções
-- [ ] Configuração de logs estruturados
-
-### Integração e Qualidade
-
-- [ ] Cliente HTTP configurado para consumo de API externa
-- [ ] Scheduler operacional com tratamento de erros
-- [ ] Implementação de pelo menos 5 testes unitários por camada (opcional)
-- [ ] Documentação básica de endpoints (Swagger/OpenAPI opcional)
-
-## 💡 Orientações Estratégicas
-
-### Priorização de Desenvolvimento
-
-**Implemente nesta ordem**: CRUD básico funcionando → Interface responsiva → Integração externa → Melhorias e extras
-
-### Qualidade do Código
-
-- Organize o projeto com estrutura de pastas clara e consistente
-- Utilize nomenclatura descritiva para variáveis, métodos e componentes
-- Implemente tratamento básico de erros em todas as operações críticas
-
-### Entrega Eficaz
-
-É preferível entregar funcionalidades completas e bem implementadas do que tentar fazer tudo parcialmente. Foque na qualidade da execução.
-
-## 📊 Critérios de Avaliação
-
-| Critério           | Peso  | Descrição                                                         |
-| ------------------ | ----- | ----------------------------------------------------------------- |
-| **Funcionalidade** | Alto  | CRUD Completo, integração externa, scheduler operacional          |
-| **Arquitetura**    | Alto  | Estrutura do projeto, separação de responsabilidades, organização |
-| **Tecnologias**    | Médio | Uso adequado e eficiente das ferramentas especificadas            |
-| **Interface**      | Médio | Usabilidade, responsividade, experiência do usuário               |
-| **Documentação**   | Baixo | README claro, comentários no código, instruções de setup          |
-
-### Diferenciais (Pontos Extras)
-
-- [ ] **Containerização**: Docker configurado para toda a aplicação
-- [ ] **Testes automatizados**: Cobertura superior a 60%
-- [ ] **Monitoramento**: Health checks e métricas básicas
-- [ ] **Segurança**: Validações de entrada e sanitização
-
-## 🚀 Especificações de Entrega
-
-### Estrutura Obrigatória do Repositório
-
-```
-printer-management-system/
-├── frontend/              # Aplicação Next.js
-│   ├── src/
-│   ├── public/
-│   └── package.json
-├── backend/               # API Spring Boot
-│   ├── src/main/java/
-│   ├── src/main/resources/
-│   └── pom.xml
-├── docker-compose.yml     # Environment de desenvolvimento
-├── README.md              # Documentação principal
-└── docs/                  # Documentação adicional (opcional)
-```
-
-### Documentação Obrigatória (README.md)
-
-- **Descrição**: Visão geral do projeto e principais funcionalidades
-- **Tecnologias**: Lista das ferramentas utilizadas
-- **Pré-requisitos**: Software necessário (Java, Node.js, Docker, etc.)
-- **Instalação**: Comandos step-by-step para setup local
-- **Execução**: Como rodar frontend, backend e banco de dados
-- **API**: Lista dos principais endpoints disponíveis
-- **Decisões técnicas**: Justificativas para escolhas importantes (opcional)
-
-### Modalidade de Entrega
-
-1. **Fork do repositório original no GitHub** o participante deve realizar um fork deste projeto para sua conta pessoal e trabalhar diretamente nele.
-2. **Branch main** estável com a versão final da aplicação
-3. **Commits bem estruturados** com mensagens descritivas em português
-4. **Aplicação executável** com README.md atualizado, substituindo o original e contendo todas as instruções de execução.
-
-## ⏰ Prazo Final
-
-**72 horas (3 dias)** a partir do recebimento deste documento.
-
-## 🔗 Recursos de Apoio
-
-- **API Externa**: `https://mt.tracerly.net`
-- **Design System**: shadcn/ui possui documentação completa online
-
-## 🔗 Observações
-
-- As funcionalidades descritas como opcionais, só contarão como pontos extras, foque primeiramente nas funcionalidades não opcionais.
-
-## Paleta de cores
-
-<img src=".github/color-1.jpg" />
-<img src=".github/color-2.jpg" />
+O sistema é composto por um **frontend em React/Next.js** que se comunica com um **backend Spring Boot**, utilizando **MySQL** como banco de dados, tudo containerizado com **Docker**.
 
 ---
 
-**Dúvidas pontuais?** Contato disponível whatsapp
+## 🛠️ Tecnologias Utilizadas
 
-**Sucesso na implementação!** 🎯
+### Frontend
+- **Next.js 14** - Framework React com SSR e otimizações automáticas
+- **TypeScript** - Tipagem estática para maior segurança e produtividade
+- **Tailwind CSS** - Framework CSS utility-first para estilização rápida
+- **FontAwesome** - Biblioteca de ícones profissionais
+- **React Hot Toast** - Sistema de notificações elegantes
+- **Radix UI** - Componentes acessíveis para modais
+- **Lucide React** - Ícones modernos e leves
+
+### Backend
+- **Spring Boot 3.5.3** - Framework Java para APIs REST
+- **Spring Data JPA** - Abstração para persistência de dados
+- **Spring Validation** - Validação de dados de entrada
+- **MySQL Connector** - Driver para conexão com MySQL
+- **Lombok** - Redução de boilerplate code
+- **Maven** - Gerenciamento de dependências
+
+### Infraestrutura
+- **Docker** - Containerização de aplicações
+- **Docker Compose** - Orquestração de múltiplos containers
+- **MySQL 8.0** - Sistema de gerenciamento de banco de dados
+
+---
+
+## 🚀 Como Executar o Projeto
+
+### Pré-requisitos
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Passo a Passo
+
+#### 1. Clone o Repositório
+```bash
+git clone <url-do-repositorio>
+cd desafio-tecnico-m4all
+```
+
+#### 2. Configure as Variáveis de Ambiente
+
+**2.1. Crie o arquivo principal .env:**
+```bash
+cp .env-exemple .env
+```
+
+**2.2. Edite o arquivo .env com suas configurações:**
+```env
+# BANCO DE DADOS MYSQL
+MYSQL_ROOT_PASSWORD=root
+MYSQL_DATABASE=media4all_printers
+MYSQL_USER=user
+MYSQL_PASSWORD=senha123
+
+# BACKEND (SPRING BOOT)
+SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/media4all_printers?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+SPRING_DATASOURCE_USERNAME=user
+SPRING_DATASOURCE_PASSWORD=senha123
+
+# API EXTERNA PARA SINCRONIZAÇÃO
+EXTERNAL_API_PRINTERS_URL=https://mt.tracerly.net
+```
+
+**2.3. Configure o frontend (arquivo separado):**
+```bash
+cp frontend/.env.example frontend/.env
+```
+
+Edite o `frontend/.env`:
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api/v1
+```
+
+#### 3. Execute o Projeto
+```bash
+# Construir e executar todos os serviços
+docker-compose up --build
+
+# Ou executar em background
+docker-compose up --build -d
+```
+
+#### 4. Acesse as Aplicações
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8080
+- **MySQL**: localhost:3306
+
+### Comandos Úteis
+
+```bash
+# Parar todos os serviços
+docker-compose down
+
+# Remover volumes (apaga dados do banco)
+docker-compose down -v
+
+# Visualizar logs em tempo real
+docker-compose logs -f
+
+# Logs de um serviço específico
+docker-compose logs -f frontend
+docker-compose logs -f backend
+docker-compose logs -f mysql
+
+# Rebuild de um serviço específico
+docker-compose up --build frontend
+```
+
+---
+
+## 📡 API Documentation - Rotas do Backend
+
+### Base URL
+```
+http://localhost:8080/api/v1
+```
+
+### 🖨️ Impressoras (`/printers`)
+
+#### `GET /printers`
+**Descrição:** Lista todas as impressoras com paginação e filtros
+
+**Parâmetros de Query:**
+```typescript
+{
+  page?: number;        // Página (padrão: 0)
+  size?: number;        // Itens por página (padrão: 20)
+  name?: string;        // Filtro por nome
+  model?: string;       // Filtro por modelo
+  location?: string;    // Filtro por localização
+  status?: string;      // Filtro por status
+  sortBy?: string;      // Campo para ordenação (padrão: "name")
+  sortDir?: string;     // Direção da ordenação (asc/desc, padrão: "asc")
+}
+```
+
+**Resposta (200 OK):**
+```json
+{
+  "content": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "HP LaserJet Pro",
+      "model": "M404dn",
+      "location": "Escritório Central",
+      "status": "Online",
+      "paperCapacity": 250
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": true,
+      "unsorted": false
+    },
+    "pageNumber": 0,
+    "pageSize": 20
+  },
+  "totalElements": 1,
+  "totalPages": 1,
+  "first": true,
+  "last": true
+}
+```
+
+#### `POST /printers`
+**Descrição:** Cria uma nova impressora
+
+**Body:**
+```json
+{
+  "name": "HP LaserJet Pro",
+  "model": "M404dn",
+  "location": "Escritório Central",
+  "status": "Online",
+  "paperCapacity": 250
+}
+```
+
+**Resposta (201 Created):**
+```json
+{
+  "status": "success",
+  "message": "Impressora criada com sucesso"
+}
+```
+
+#### `GET /printers/{id}`
+**Descrição:** Obtém uma impressora específica por ID
+
+**Parâmetros:**
+- `id` (UUID): ID da impressora
+
+**Resposta (200 OK):**
+```json
+{
+  "id": "123e4567-e89b-12d3-a456-426614174000",
+  "name": "HP LaserJet Pro",
+  "model": "M404dn",
+  "location": "Escritório Central",
+  "status": "Online",
+  "paperCapacity": 250
+}
+```
+
+#### `PUT /printers/{id}`
+**Descrição:** Atualiza uma impressora existente
+
+**Parâmetros:**
+- `id` (UUID): ID da impressora
+
+**Body:**
+```json
+{
+  "name": "HP LaserJet Pro Atualizada",
+  "model": "M404dn",
+  "location": "Escritório Central - Sala 2",
+  "status": "Offline",
+  "paperCapacity": 500
+}
+```
+
+**Resposta (200 OK):**
+```json
+{
+  "status": "success",
+  "message": "Impressora atualizada com sucesso"
+}
+```
+
+#### `DELETE /printers/{id}`
+**Descrição:** Remove uma impressora
+
+**Parâmetros:**
+- `id` (UUID): ID da impressora
+
+**Resposta (204 No Content)**
+
+#### `GET /printers/{id}/status`
+**Descrição:** Obtém apenas o status e capacidade de papel de uma impressora
+
+**Parâmetros:**
+- `id` (UUID): ID da impressora
+
+**Resposta (200 OK):**
+```json
+{
+  "status": "Online",
+  "paperCapacity": 250
+}
+```
+
+### 📊 Sincronização (`/sync`)
+
+#### `GET /sync/statistics`
+**Descrição:** Obtém estatísticas de sincronização com API externa
+
+**Headers de Resposta:**
+```
+Cache-Control: no-cache, no-store, must-revalidate
+Pragma: no-cache
+Expires: 0
+```
+
+**Resposta (200 OK):**
+```json
+{
+  "totalSyncs": 150,
+  "successCount": 142,
+  "failureCount": 8,
+  "lastProcessed": 45,
+  "lastSyncAt": "2025-01-07T10:30:00"
+}
+```
+
+### 🚨 Códigos de Erro
+
+| Código | Descrição |
+|--------|-----------|
+| `400` | Bad Request - Dados inválidos |
+| `404` | Not Found - Recurso não encontrado |
+| `500` | Internal Server Error - Erro interno |
+
+**Exemplo de Resposta de Erro:**
+```json
+{
+  "timestamp": "2025-01-07T10:30:00",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "O nome da impressora é obrigatório",
+  "path": "/api/v1/printers"
+}
+```
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+desafio-tecnico-m4all/
+├── 📁 frontend/                 # Aplicação Next.js
+│   ├── 📁 src/
+│   │   ├── 📁 app/
+│   │   │   ├── 📁 components/   # Componentes reutilizáveis
+│   │   │   ├── 📁 impressoras/  # Página de gestão de impressoras
+│   │   │   ├── 📁 estatisticas/ # Página de estatísticas
+│   │   │   └── 📁 types/        # Definições de tipos TypeScript
+│   │   └── 📁 lib/              # Utilitários e configurações
+│   ├── 📄 package.json
+│   ├── 📄 .env.example
+│   └── 📄 Dockerfile
+├── 📁 backend/                  # API Spring Boot
+│   ├── 📁 src/main/java/com/media4all/backend/
+│   │   ├── 📁 controller/       # Controllers REST
+│   │   ├── 📁 business/         # Lógica de negócio
+│   │   ├── 📁 dto/              # Data Transfer Objects
+│   │   ├── 📁 infraestructure/  # Camada de dados
+│   │   ├── 📁 config/           # Configurações
+│   │   └── 📁 exception/        # Tratamento de exceções
+│   ├── 📄 pom.xml
+│   └── 📄 Dockerfile
+├── 📄 docker-compose.yml        # Orquestração dos containers
+├── 📄 .env-exemple              # Exemplo de variáveis de ambiente
+├── 📄 README.md                 # Este arquivo
+└── 📄 CONFIGURACAO_AMBIENTE.md  # Guia detalhado de configuração
+```
+
+---
+
+## 🔧 Desenvolvimento Local
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+# Acesse: http://localhost:3001
+```
+
+### Backend
+```bash
+cd backend
+mvn spring-boot:run
+# Acesse: http://localhost:8080
+```
+
+### Banco de Dados
+Configure um MySQL local ou use Docker:
+```bash
+docker run --name mysql-local -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:8.0
+```
+
+---
+
+## 🎯 Funcionalidades Implementadas
+
+### ✅ Frontend
+- [x] Dashboard responsivo com design moderno
+- [x] CRUD completo de impressoras
+- [x] Sistema de filtros avançados
+- [x] Paginação de resultados
+- [x] Modais para edição e visualização
+- [x] Página de estatísticas em tempo real
+- [x] Sistema de notificações (toast)
+- [x] Tratamento de erros da API
+
+### ✅ Backend
+- [x] API REST completa (CRUD)
+- [x] Validação de dados de entrada
+- [x] Paginação e ordenação
+- [x] Filtros dinâmicos
+- [x] Tratamento global de exceções
+- [x] Sincronização com API externa
+- [x] Configuração de CORS
+- [x] Documentação das rotas
+
+### ✅ Infraestrutura
+- [x] Containerização completa com Docker
+- [x] Orquestração com Docker Compose
+- [x] Configuração de banco de dados
+- [x] Variáveis de ambiente organizadas
+- [x] Scripts de build otimizados
+
+---
+
+## 📧 Contato
+
+Projeto desenvolvido para o processo seletivo da **Media4All**.
+
+**Desenvolvedor:** Antonio  
+**Objetivo:** Vaga de Estágio em Desenvolvimento  
+**Data:** Julho de 2025
+
+---
+
+## 📄 Licença
+
+Este projeto foi desenvolvido exclusivamente para fins de avaliação técnica no processo seletivo da Media4All.
