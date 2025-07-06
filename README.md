@@ -9,6 +9,8 @@ Este projeto foi desenvolvido como parte do processo seletivo para estágio na *
 - 📈 **Dashboard de estatísticas** em tempo real
 - 🎛️ **Filtros avançados** para busca e organização
 
+Foi feito um deploy provisório para avaliação do projeto nesse link http://62.146.176.40/
+
 O sistema é composto por um **frontend em React/Next.js** que se comunica com um **backend Spring Boot**, utilizando **MySQL** como banco de dados, tudo containerizado com **Docker**.
 
 ---
@@ -45,7 +47,7 @@ O sistema é composto por um **frontend em React/Next.js** que se comunica com u
 
 #### 1. Clone o Repositório
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/antonioisaacdias/desafio-tecnico-m4all.git
 cd desafio-tecnico-m4all
 ```
 
