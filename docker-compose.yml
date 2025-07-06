@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
 
   mysql:
@@ -17,6 +15,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    networks:
+      - app-network
 
   backend:
     build:
@@ -33,7 +33,28 @@ services:
       mysql:
         condition: service_healthy
     command: mvn spring-boot:run
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # O frontend roda no navegador, então precisa usar localhost para acessar o backend
+        NEXT_PUBLIC_API_BASE_URL: http://localhost:8080/api/v1
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - app-network
 
 volumes:
   mysql_data:
   maven-repo:
+
+networks:
+  app-network:
+    driver: bridge
