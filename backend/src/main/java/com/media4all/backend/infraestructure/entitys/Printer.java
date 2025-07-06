@@ -13,12 +13,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table
 @Builder
-
 public class Printer {
     @Id
     private UUID id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @Column(name = "model")
@@ -36,4 +35,15 @@ public class Printer {
 
     @Column(name = "created_at")
     private Instant createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.createdAt == null) {
+            this.createdAt = Instant.now();
+        }
+        if (this.id == null) {
+            this.id = UUID.randomUUID();
+        }
+    }
+
 }
