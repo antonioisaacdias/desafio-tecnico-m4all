@@ -39,20 +39,32 @@ public class PrinterSyncService {
                     statusEnum = PrinterStatus.OFFLINE;
                 }
 
-                UUID printerId = dto.getId() != null ? UUID.fromString(dto.getId()) : UUID.randomUUID();
-                Instant createdAt = dto.getCreatedAt() != null ? Instant.parse(dto.getCreatedAt()) : Instant.now();
+                // Busca pelo nome da impressora
+                Optional<Printer> existing = printerRepository.findByNameIgnoreCase(dto.getName());
 
-                Optional<Printer> existing = printerRepository.findById(printerId);
-
-                Printer printer = Printer.builder()
-                        .id(printerId)
-                        .name(dto.getName())
-                        .model(dto.getModel())
-                        .location(dto.getLocation())
-                        .status(statusEnum)
-                        .paperCapacity(dto.getPaperCapacity())
-                        .createdAt(existing.map(Printer::getCreatedAt).orElse(createdAt))
-                        .build();
+                Printer printer;
+                if (existing.isPresent()) {
+                    Printer current = existing.get();
+                    printer = Printer.builder()
+                            .id(current.getId())
+                            .name(dto.getName())
+                            .model(dto.getModel())
+                            .location(dto.getLocation())
+                            .status(statusEnum)
+                            .paperCapacity(dto.getPaperCapacity())
+                            .createdAt(current.getCreatedAt())
+                            .build();
+                } else {
+                    printer = Printer.builder()
+                            .id(UUID.randomUUID())
+                            .name(dto.getName())
+                            .model(dto.getModel())
+                            .location(dto.getLocation())
+                            .status(statusEnum)
+                            .paperCapacity(dto.getPaperCapacity())
+                            .createdAt(dto.getCreatedAt() != null ? Instant.parse(dto.getCreatedAt()) : Instant.now())
+                            .build();
+                }
 
                 printerRepository.save(printer);
                 processed++;

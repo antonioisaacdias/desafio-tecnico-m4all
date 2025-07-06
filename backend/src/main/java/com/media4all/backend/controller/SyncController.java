@@ -3,6 +3,7 @@ package com.media4all.backend.controller;
 import com.media4all.backend.infraestructure.dto.SyncStatisticsResponse;
 import com.media4all.backend.infraestructure.sync.SyncStatistics;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

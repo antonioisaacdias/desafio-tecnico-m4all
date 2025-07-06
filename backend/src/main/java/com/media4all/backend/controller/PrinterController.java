@@ -1,8 +1,8 @@
 package com.media4all.backend.controller;
 
 import com.media4all.backend.business.PrinterService;
+import com.media4all.backend.dto.PrinterDTO;
 import com.media4all.backend.dto.PrinterStatusResponse;
-import com.media4all.backend.infraestructure.entitys.Printer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,29 +20,27 @@ public class PrinterController {
     private final PrinterService printerService;
 
     @PostMapping
-    public ResponseEntity<Void> addPrinter(@RequestBody Printer printer) {
-        printerService.addPrinter(printer);
-        return ResponseEntity.created(
-                URI.create("/api/v1/printers/" + printer.getId())
-        ).build();
+    public ResponseEntity<Void> addPrinter(@RequestBody PrinterDTO printerDTO) {
+        printerService.addPrinter(printerDTO);
+        return ResponseEntity.created(URI.create("/api/v1/printers")).build();
     }
 
     @GetMapping
-    public ResponseEntity<Page<Printer>> getAllPrinters(
+    public ResponseEntity<Page<PrinterDTO>> getAllPrinters(
             @PageableDefault(size = 20, sort = "name") Pageable pageable) {
-        Page<Printer> printers = printerService.getAllPrinters(pageable);
+        Page<PrinterDTO> printers = printerService.getAllPrinters(pageable);
         return ResponseEntity.ok(printers);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Printer> getPrinterById(@PathVariable UUID id) {
-        Printer printer = printerService.getPrinterById(id);
+    public ResponseEntity<PrinterDTO> getPrinterById(@PathVariable UUID id) {
+        PrinterDTO printer = printerService.getPrinterById(id);
         return ResponseEntity.ok(printer);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updatePrinter(@PathVariable UUID id, @RequestBody Printer printer) {
-        printerService.updatePrinter(id, printer);
+    public ResponseEntity<Void> updatePrinter(@PathVariable UUID id, @RequestBody PrinterDTO printerDTO) {
+        printerService.updatePrinter(id, printerDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -54,9 +52,9 @@ public class PrinterController {
 
     @GetMapping("/{id}/status")
     public ResponseEntity<PrinterStatusResponse> getPrinterStatus(@PathVariable UUID id) {
-        Printer printer = printerService.getPrinterById(id);
+        PrinterDTO printer = printerService.getPrinterById(id);
         PrinterStatusResponse response = new PrinterStatusResponse(
-                printer.getStatus().name(),
+                printer.getStatus(),
                 printer.getPaperCapacity()
         );
         return ResponseEntity.ok(response);
