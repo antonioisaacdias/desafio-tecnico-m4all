@@ -17,7 +17,8 @@ public class CorsConfig {
                         .allowedOrigins(
                             "http://localhost:3000",     // Para desenvolvimento local
                             "http://frontend:3000",      // Para comunicação entre containers
-                            "http://127.0.0.1:3000"      // Alternativa para localhost
+                            "http://127.0.0.1:3000",     // Alternativa para localhost
+                            "*"                          // Para produção (configure domínio específico se necessário)
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")

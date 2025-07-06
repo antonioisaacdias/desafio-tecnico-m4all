@@ -1,15 +1,17 @@
-services:
+# Docker Compose para Produção
+version: '3.8'
 
+services:
   mysql:
     image: mysql:8.0
-    container_name: mysql
+    container_name: mysql-prod
     restart: always
     env_file:
-      - .env
+      - .env.prod
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data_prod:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -21,18 +23,15 @@ services:
   backend:
     build:
       context: ./backend
-    container_name: backend
+    container_name: backend-prod
     env_file:
-      - .env
+      - .env.prod
     ports:
       - "8080:8080"
-    volumes:
-      - ./backend:/app 
-      - maven-repo:/root/.m2 
     depends_on:
       mysql:
         condition: service_healthy
-    command: mvn spring-boot:run
+    command: mvn spring-boot:run -Dspring-boot.run.profiles=prod
     networks:
       - app-network
 
@@ -40,9 +39,9 @@ services:
     build:
       context: ./frontend
       args:
-        # Em produção, usar o nome do serviço do backend para comunicação entre containers
-        NEXT_PUBLIC_API_BASE_URL: http://backend:8080/api/v1
-    container_name: frontend
+        # Em produção, usar o domínio real ou IP do servidor
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://backend:8080/api/v1}
+    container_name: frontend-prod
     ports:
       - "3000:3000"
     depends_on:
@@ -52,8 +51,7 @@ services:
       - app-network
 
 volumes:
-  mysql_data:
-  maven-repo:
+  mysql_data_prod:
 
 networks:
   app-network:
