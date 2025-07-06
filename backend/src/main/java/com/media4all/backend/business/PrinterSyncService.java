@@ -27,8 +27,12 @@ public class PrinterSyncService {
     private final SyncStatisticRepository syncStatisticRepository;
 
     public void syncPrinters() {
+        // Inicializa as estatísticas do banco se necessário
+        initializeStatisticsFromDatabase();
+        
         syncStatistics.setTotalSyncs(syncStatistics.getTotalSyncs() + 1);
         int processed = 0;
+        
         try {
             List<ExternalPrinterDTO> externalPrinters = externalApiClient.fetchPrinters();
             for (ExternalPrinterDTO dto : externalPrinters) {
@@ -39,7 +43,6 @@ public class PrinterSyncService {
                     statusEnum = PrinterStatus.OFFLINE;
                 }
 
-                // Busca pelo nome da impressora
                 Optional<Printer> existing = printerRepository.findByNameIgnoreCase(dto.getName());
 
                 Printer printer;
@@ -77,6 +80,7 @@ public class PrinterSyncService {
             syncStatistics.setLastProcessed(processed);
             syncStatistics.setLastSyncAt(DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
 
+            // Salva as estatísticas atualizadas no banco
             SyncStatistic stat = SyncStatistic.builder()
                     .totalSyncs(syncStatistics.getTotalSyncs())
                     .successCount(syncStatistics.getSuccessCount())
@@ -86,6 +90,18 @@ public class PrinterSyncService {
                     .createdAt(Instant.now())
                     .build();
             syncStatisticRepository.save(stat);
+        }
+    }
+    
+    private void initializeStatisticsFromDatabase() {
+        Optional<SyncStatistic> latestStat = syncStatisticRepository.findLatest();
+        if (latestStat.isPresent()) {
+            SyncStatistic stat = latestStat.get();
+            syncStatistics.setTotalSyncs(stat.getTotalSyncs());
+            syncStatistics.setSuccessCount(stat.getSuccessCount());
+            syncStatistics.setFailureCount(stat.getFailureCount());
+            syncStatistics.setLastProcessed(stat.getLastProcessed());
+            syncStatistics.setLastSyncAt(stat.getLastSyncAt());
         }
     }
 }

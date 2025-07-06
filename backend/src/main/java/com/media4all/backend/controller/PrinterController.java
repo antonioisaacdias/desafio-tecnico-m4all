@@ -27,8 +27,14 @@ public class PrinterController {
 
     @GetMapping
     public ResponseEntity<Page<PrinterDTO>> getAllPrinters(
-            @PageableDefault(size = 20, sort = "name") Pageable pageable) {
-        Page<PrinterDTO> printers = printerService.getAllPrinters(pageable);
+            @PageableDefault(size = 20, sort = "name") Pageable pageable,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false, defaultValue = "name") String sortBy,
+            @RequestParam(required = false, defaultValue = "asc") String sortDir) {
+        Page<PrinterDTO> printers = printerService.getAllPrinters(pageable, name, model, location, status, sortBy, sortDir);
         return ResponseEntity.ok(printers);
     }
 

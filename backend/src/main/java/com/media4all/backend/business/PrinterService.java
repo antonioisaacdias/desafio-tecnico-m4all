@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -25,12 +27,52 @@ public class PrinterService {
     }
 
     public Page<PrinterDTO> getAllPrinters(Pageable pageable) {
-        Page<Printer> printers = repository.findAll(pageable);
+        return getAllPrinters(pageable, null, null, null, null, "name", "asc");
+    }
+
+    public Page<PrinterDTO> getAllPrinters(Pageable pageable, String name, String model, String location, String status) {
+        return getAllPrinters(pageable, name, model, location, status, "name", "asc");
+    }
+
+    public Page<PrinterDTO> getAllPrinters(Pageable pageable, String name, String model, String location, String status, String sortBy, String sortDir) {
+        // Criar novo Pageable com ordenação personalizada
+        Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        
+        // Validar campo de ordenação
+        String validSortBy = validateSortField(sortBy);
+        Sort sort = Sort.by(direction, validSortBy);
+        Pageable customPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        
+        Page<Printer> printers;
+        
+        if (name != null || model != null || location != null || status != null) {
+            printers = repository.findWithFilters(name, model, location, status, customPageable);
+        } else {
+            printers = repository.findAll(customPageable);
+        }
+        
         return new PageImpl<>(
                 printers.getContent().stream().map(this::toDTO).collect(Collectors.toList()),
-                pageable,
+                customPageable,
                 printers.getTotalElements()
         );
+    }
+
+    private String validateSortField(String sortBy) {
+        switch (sortBy != null ? sortBy.toLowerCase() : "name") {
+            case "name":
+                return "name";
+            case "model":
+                return "model";
+            case "status":
+                return "status";
+            case "location":
+                return "location";
+            case "papercapacity":
+                return "paperCapacity";
+            default:
+                return "name";
+        }
     }
 
     public PrinterDTO getPrinterById(UUID id) {
@@ -73,6 +115,7 @@ public class PrinterService {
 
     private PrinterDTO toDTO(Printer printer) {
         PrinterDTO dto = new PrinterDTO();
+        dto.setId(printer.getId());
         dto.setName(printer.getName());
         dto.setModel(printer.getModel());
         dto.setLocation(printer.getLocation());
