@@ -5,10 +5,9 @@
 Este projeto foi desenvolvido como parte do processo seletivo para estágio na **Media4All**. Consiste em um sistema completo de gestão de impressoras que permite:
 
 - 📊 **Gerenciamento completo de impressoras** (CRUD)
-- 🔄 **Sincronização automática** com APIs externas
+- 🔄 **Sincronização automática** com API externa
 - 📈 **Dashboard de estatísticas** em tempo real
 - 🎛️ **Filtros avançados** para busca e organização
-- 📱 **Interface responsiva** e moderna
 
 O sistema é composto por um **frontend em React/Next.js** que se comunica com um **backend Spring Boot**, utilizando **MySQL** como banco de dados, tudo containerizado com **Docker**.
 
@@ -41,10 +40,6 @@ O sistema é composto por um **frontend em React/Next.js** que se comunica com u
 ---
 
 ## 🚀 Como Executar o Projeto
-
-### Pré-requisitos
-- [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Passo a Passo
 
@@ -102,28 +97,6 @@ docker-compose up --build -d
 - **Backend API**: http://localhost:8080
 - **MySQL**: localhost:3306
 
-### Comandos Úteis
-
-```bash
-# Parar todos os serviços
-docker-compose down
-
-# Remover volumes (apaga dados do banco)
-docker-compose down -v
-
-# Visualizar logs em tempo real
-docker-compose logs -f
-
-# Logs de um serviço específico
-docker-compose logs -f frontend
-docker-compose logs -f backend
-docker-compose logs -f mysql
-
-# Rebuild de um serviço específico
-docker-compose up --build frontend
-```
-
----
 
 ## 📡 API Documentation - Rotas do Backend
 
@@ -289,85 +262,6 @@ Expires: 0
 }
 ```
 
-### 🚨 Códigos de Erro
-
-| Código | Descrição |
-|--------|-----------|
-| `400` | Bad Request - Dados inválidos |
-| `404` | Not Found - Recurso não encontrado |
-| `500` | Internal Server Error - Erro interno |
-
-**Exemplo de Resposta de Erro:**
-```json
-{
-  "timestamp": "2025-01-07T10:30:00",
-  "status": 400,
-  "error": "Bad Request",
-  "message": "O nome da impressora é obrigatório",
-  "path": "/api/v1/printers"
-}
-```
-
----
-
-## 📁 Estrutura do Projeto
-
-```
-desafio-tecnico-m4all/
-├── 📁 frontend/                 # Aplicação Next.js
-│   ├── 📁 src/
-│   │   ├── 📁 app/
-│   │   │   ├── 📁 components/   # Componentes reutilizáveis
-│   │   │   ├── 📁 impressoras/  # Página de gestão de impressoras
-│   │   │   ├── 📁 estatisticas/ # Página de estatísticas
-│   │   │   └── 📁 types/        # Definições de tipos TypeScript
-│   │   └── 📁 lib/              # Utilitários e configurações
-│   ├── 📄 package.json
-│   ├── 📄 .env.example
-│   └── 📄 Dockerfile
-├── 📁 backend/                  # API Spring Boot
-│   ├── 📁 src/main/java/com/media4all/backend/
-│   │   ├── 📁 controller/       # Controllers REST
-│   │   ├── 📁 business/         # Lógica de negócio
-│   │   ├── 📁 dto/              # Data Transfer Objects
-│   │   ├── 📁 infraestructure/  # Camada de dados
-│   │   ├── 📁 config/           # Configurações
-│   │   └── 📁 exception/        # Tratamento de exceções
-│   ├── 📄 pom.xml
-│   └── 📄 Dockerfile
-├── 📄 docker-compose.yml        # Orquestração dos containers
-├── 📄 .env-exemple              # Exemplo de variáveis de ambiente
-├── 📄 README.md                 # Este arquivo
-└── 📄 CONFIGURACAO_AMBIENTE.md  # Guia detalhado de configuração
-```
-
----
-
-## 🔧 Desenvolvimento Local
-
-### Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-# Acesse: http://localhost:3001
-```
-
-### Backend
-```bash
-cd backend
-mvn spring-boot:run
-# Acesse: http://localhost:8080
-```
-
-### Banco de Dados
-Configure um MySQL local ou use Docker:
-```bash
-docker run --name mysql-local -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:8.0
-```
-
----
-
 ## 🎯 Funcionalidades Implementadas
 
 ### ✅ Frontend
@@ -397,18 +291,4 @@ docker run --name mysql-local -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:
 - [x] Variáveis de ambiente organizadas
 - [x] Scripts de build otimizados
 
----
 
-## 📧 Contato
-
-Projeto desenvolvido para o processo seletivo da **Media4All**.
-
-**Desenvolvedor:** Antonio  
-**Objetivo:** Vaga de Estágio em Desenvolvimento  
-**Data:** Julho de 2025
-
----
-
-## 📄 Licença
-
-Este projeto foi desenvolvido exclusivamente para fins de avaliação técnica no processo seletivo da Media4All.
