@@ -1,4 +1,4 @@
-export type PrinterStatus = "online" | "offline";
+export type PrinterStatus = "ONLINE" | "OFFLINE";
 
 export type Printer = {
     id: string;
