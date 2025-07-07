@@ -27,7 +27,6 @@ public class PrinterSyncService {
     private final SyncStatisticRepository syncStatisticRepository;
 
     public void syncPrinters() {
-        // Inicializa as estatísticas do banco se necessário
         initializeStatisticsFromDatabase();
         
         syncStatistics.setTotalSyncs(syncStatistics.getTotalSyncs() + 1);
@@ -80,7 +79,6 @@ public class PrinterSyncService {
             syncStatistics.setLastProcessed(processed);
             syncStatistics.setLastSyncAt(DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
 
-            // Salva as estatísticas atualizadas no banco
             SyncStatistic stat = SyncStatistic.builder()
                     .totalSyncs(syncStatistics.getTotalSyncs())
                     .successCount(syncStatistics.getSuccessCount())

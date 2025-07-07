@@ -15,9 +15,9 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins(
-                            "http://localhost:3000",     // Para desenvolvimento local
-                            "http://frontend:3000",      // Para comunicação entre containers
-                            "http://127.0.0.1:3000"      // Alternativa para localhost
+                            "http://localhost:3000",
+                            "http://frontend:3000",  
+                            "http://127.0.0.1:3000"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")

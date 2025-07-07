@@ -19,7 +19,7 @@ interface PrinterFormModalProps {
   onClose: () => void;
   printer?: Printer | null;
   onSave?: (printer: any) => void; 
-  onSuccess?: () => void; // Callback para quando salvar com sucesso
+  onSuccess?: () => void; 
 }
 
 export default function PrinterFormModal({ isOpen, onClose, printer, onSave, onSuccess }: PrinterFormModalProps) {
@@ -72,7 +72,6 @@ export default function PrinterFormModal({ isOpen, onClose, printer, onSave, onS
     setLoading(true);
     setError(null);
 
-    // Validação dos campos obrigatórios
     if (!formData.name.trim()) {
       setError('Nome da impressora é obrigatório');
       toast.error('Nome da impressora é obrigatório');
@@ -118,7 +117,6 @@ export default function PrinterFormModal({ isOpen, onClose, printer, onSave, onS
       console.log('printerData sendo enviado:', printerData);
       
       if (printer && printer.id) {
-        // PUT - Editar impressora existente
         const url = `${baseUrl}/printers/${printer.id}`;
         console.log('Fazendo PUT para:', url);
         const response = await fetch(url, {
@@ -138,7 +136,6 @@ export default function PrinterFormModal({ isOpen, onClose, printer, onSave, onS
         
         toast.success('Impressora atualizada com sucesso!');
       } else {
-        // POST - Criar nova impressora
         const url = `${baseUrl}/printers`;
         console.log('Fazendo POST para:', url);
         const response = await fetch(url, {
@@ -159,7 +156,6 @@ export default function PrinterFormModal({ isOpen, onClose, printer, onSave, onS
         toast.success('Impressora criada com sucesso!');
       }
 
-      // Chama callbacks de sucesso
       if (onSave) {
         onSave(printerData);
       }

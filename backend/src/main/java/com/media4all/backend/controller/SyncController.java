@@ -31,7 +31,6 @@ public class SyncController {
                     stat.getLastSyncAt()
             );
         } else {
-            // Se não há estatísticas no banco, retorna valores zerados
             response = new SyncStatisticsResponse(0L, 0L, 0L, 0L, null);
         }
         

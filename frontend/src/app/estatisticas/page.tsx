@@ -20,7 +20,7 @@ export default function Estatisticas() {
     async function fetchStatistics() {
         setLoading(true);
         try {
-            // Força dados frescos com timestamp único a cada carregamento
+
             const timestamp = Date.now();
             const response = await fetch(`${baseUrl}/sync/statistics?_t=${timestamp}`, {
                 method: 'GET',
@@ -78,7 +78,6 @@ export default function Estatisticas() {
                 </div>
             ) : statistics ? (
                 <>
-                    {/* Cards de Estatísticas */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <StatCard
                             title="Total de Sincronizações"
@@ -127,7 +126,6 @@ export default function Estatisticas() {
                         />
                     </div>
 
-                    {/* Resumo */}
                     <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
                         <h2 className="text-xl font-semibold text-gray-900 mb-4">Resumo</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
