@@ -52,19 +52,16 @@ export default function Impressoras() {
   async function fetchPrinters() {
     setLoading(true);
     try {
-      // Construir parâmetros de query
       const queryParams = new URLSearchParams({
         page: (pagination.currentPage - 1).toString(),
         size: pagination.itemsPerPage.toString()
       });
 
-      // Adicionar filtros se não estão vazios
       if (filters.name.trim()) queryParams.append('name', filters.name.trim());
       if (filters.model.trim()) queryParams.append('model', filters.model.trim());
       if (filters.location.trim()) queryParams.append('location', filters.location.trim());
       if (filters.status.trim()) queryParams.append('status', filters.status.trim());
       
-      // Adicionar parâmetros de ordenação
       queryParams.append('sortBy', filters.sortBy);
       queryParams.append('sortDir', filters.sortDir);
 
@@ -182,7 +179,7 @@ export default function Impressoras() {
 
   const handleFilter = (newFilters: FilterValues) => {
     setFilters(newFilters);
-    setPagination(prev => ({ ...prev, currentPage: 1 })); // Reset para primeira página
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
   };
 
   const handleClearFilters = () => {
@@ -203,7 +200,7 @@ export default function Impressoras() {
       sortBy,
       sortDir
     }));
-    setPagination(prev => ({ ...prev, currentPage: 1 })); // Reset para primeira página
+    setPagination(prev => ({ ...prev, currentPage: 1 })); 
   };
 
   return (
@@ -340,7 +337,7 @@ export default function Impressoras() {
         onClose={() => setFormModalOpen(false)}
         printer={editingPrinter}
         onSuccess={() => {
-          fetchPrinters(); // Recarrega a lista após salvar
+          fetchPrinters();
         }}
       />
     </div>

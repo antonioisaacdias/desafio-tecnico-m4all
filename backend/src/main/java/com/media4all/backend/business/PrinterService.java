@@ -35,10 +35,9 @@ public class PrinterService {
     }
 
     public Page<PrinterDTO> getAllPrinters(Pageable pageable, String name, String model, String location, String status, String sortBy, String sortDir) {
-        // Criar novo Pageable com ordenação personalizada
+
         Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         
-        // Validar campo de ordenação
         String validSortBy = validateSortField(sortBy);
         Sort sort = Sort.by(direction, validSortBy);
         Pageable customPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
